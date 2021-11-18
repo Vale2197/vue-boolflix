@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <site_header/>
+    <site_header :start-search="startSearch(param)"/>
     <!--  -->
 
     <site_main/>
@@ -23,6 +23,16 @@ export default {
       site_header,
       site_main,
       site_footer
+    },
+    data() {
+      return {
+        userQuery: "",
+      }
+    },
+    methods: {
+      startSearch(param){
+        console.log(param);
+      }
     }
 }
 </script>
