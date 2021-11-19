@@ -48,7 +48,7 @@
                   <!--  -->
 
                   <p>
-                    VOTO: {{film.vote_average}}
+                    VOTO: {{voto(film)}}
                   </p>
                   <!--  -->
                   
@@ -84,7 +84,7 @@
                   <!--  -->
 
                   <p>
-                    VOTO: {{serie.vote_average}}
+                    VOTO: {{voto(serie)}} <i class="fas fa-star"></i>
                   </p>
                   <!--  -->
                   
@@ -147,7 +147,19 @@ export default {
         })
       },
 
+      voto(film) {
+          let votoIntero = Math.ceil(film.vote_average)
+          if(votoIntero > 5) {
+             return votoIntero = 5;
+          }
+
+          return votoIntero;
+        }
+
     },
+    computed: {
+        
+    }
 }
 </script>
 
