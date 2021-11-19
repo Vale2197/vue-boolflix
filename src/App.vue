@@ -48,7 +48,9 @@
                   <!--  -->
 
                   <p>
-                    VOTO: {{voto(film)}}
+                    VOTO:
+                    <i v-for="filledStar in voto(film) " :key="filledStar" class="fas fa-star"></i> 
+                    <i v-for="emptyStar in 5 - voto(film)" :key="emptyStar" class="far fa-star"></i>
                   </p>
                   <!--  -->
                   
@@ -84,7 +86,9 @@
                   <!--  -->
 
                   <p>
-                    VOTO: {{voto(serie)}} <i class="fas fa-star"></i>
+                    VOTO:
+                    <i v-for="filledStar in voto(serie) " :key="filledStar" class="fas fa-star"></i> 
+                    <i v-for="emptyStar in 5 - voto(serie)" :key="emptyStar" class="far fa-star"></i>
                   </p>
                   <!--  -->
                   
