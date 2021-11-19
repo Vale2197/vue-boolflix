@@ -1,23 +1,24 @@
 <template>
   <div id="app">
+       <header>
+        <div class="container">
 
-     <header>
-      <div class="container">
+            <div class="row">
 
-        <div class="row">
-
-          <div class="col-12">
-            <input v-model="userQuery" type="text" placeholder="search" id="search">
-            <button @click="startSearch">
-              search
-            </button>
-          </div>
-
+            <div class="col-12">
+                <input v-model="userQuery" type="text" placeholder="search" id="search">
+                <button @click="startSearch">
+                search
+                </button>
+            </div>
+            </div>
+            <!-- search form -->
         </div>
-        <!-- search form -->
-
-        <div class="searchResult">
-          
+  </header>
+      <!-- 
+        HEADER
+       -->
+      <div class="searchResult"> 
           <div v-for="film in userFilms" :key="film.id" class="film">
             <p>
               TITOLO: {{film.title}}
@@ -30,7 +31,7 @@
             <!--  -->
 
             <p>
-              LINGUA: {{film.original_language}}
+              LINGUA: {{film.original_language}} <country-flag :country="film.original_language == 'en' ? 'gb' :  film.original_language" size='big'/>
             </p>
             <!--  -->
 
@@ -43,20 +44,20 @@
               --------------------------------------- <br>
             </p>
           </div>
-
-        </div>
-        <!--  -->
       </div>
-  </header>
-    <!--  -->
-
   </div>
 </template>
 
 <script>
-import axios from "../node_modules/axios"
+import axios from "../node_modules/axios";
+import CountryFlag from '../node_modules/vue-country-flag';
+
 export default {
   name: 'App',
+
+    components: {
+      CountryFlag
+    },
 
     data() {
       return {
@@ -66,6 +67,8 @@ export default {
     },
     methods: {
       startSearch(){
+        console.log(this.userQuery);
+        
         axios.get(`https://api.themoviedb.org/3/search/movie?api_key=d96fb085a5d3052af443a4f202383b1f&query=${this.userQuery}&page=1`)
             .then(r => {
               console.log(r.data.results);
