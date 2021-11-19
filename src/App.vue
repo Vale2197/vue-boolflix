@@ -14,76 +14,85 @@
             </div>
             <!-- search form -->
         </div>
-  </header>
+      </header>
       <!-- 
         HEADER
        -->
-      <div class="searchResult"> 
-        <h2>
-          FILMS:
-        </h2>
-          <div v-for="film in userFilms[0]" :key="film.id" class="film">
-            <p>
-              TITOLO: {{film.title}}
-            </p>
-            <!--  -->
+       <div class="container">
 
-            <p>
-              TITOLO ORIGINALE: {{film.original_title}}
-            </p>
-            <!--  -->
+            <div class="searchResult"> 
+              <h2>
+                FILMS:
+              </h2>
+                <div v-for="film in userFilms[0]" :key="film.id" class="film">
+                  <img :src="poster_prefix + '/w300' + film.poster_path" alt="poster">
+                  <p>
+                    TITOLO: {{film.title}}
+                  </p>
+                  <!--  -->
 
-            <p>
-              LINGUA: {{film.original_language}} <CountryFlag :country="film.original_language == 'en' ? 'gb' : film.original_language"/>
-            </p>
-            <!--  -->
+                  <p>
+                    TITOLO ORIGINALE: {{film.original_title}}
+                  </p>
+                  <!--  -->
 
-            <p>
-              VOTO: {{film.vote_average}}
-            </p>
-            <!--  -->
-            
-            <p>
-              --------------------------------------- <br>
-            </p>
-          </div>
-      </div>
-      <!-- 
-            / FILMS
-       -->
-       <div class="searchResult"> 
-        <h2>
-          SERIES:
-        </h2>
-          <div v-for="serie in userSeries[0]" :key="serie.id" class="film">
-            <p>
-              TITOLO: {{serie.name}}
-            </p>
-            <!--  -->
+                  <p>
+                    LINGUA: {{film.original_language}} <CountryFlag :country="film.original_language == 'en' ? 'gb' : film.original_language"/>
+                  </p>
+                  <!--  -->
 
-            <p>
-              TITOLO ORIGINALE: {{serie.original_name}}
-            </p>
-            <!--  -->
+                  <p>
+                    VOTO: {{film.vote_average}}
+                  </p>
+                  <!--  -->
+                  
+                  <p>
+                    --------------------------------------- <br>
+                  </p>
+                </div>
+            </div>
+            <!-- 
+                  / FILMS
+            -->
+            <div class="searchResult"> 
+              <h2>
+                SERIES:
+              </h2>
+                <div v-for="serie in userSeries[0]" :key="serie.id" class="film">
+                  <img :src="poster_prefix + '/w300' + serie.poster_path" alt="poster">
+                  <p>
+                    TITOLO: {{serie.name}}
+                  </p>
+                  <!--  -->
 
-            <p>
-              LINGUA: {{serie.original_language}} <CountryFlag :country="serie.original_language == 'en' ? 'gb' : serie.original_language"/>
-            </p>
-            <!--  -->
+                  <p>
+                    TITOLO ORIGINALE: {{serie.original_name}}
+                  </p>
+                  <!--  -->
 
-            <p>
-              VOTO: {{serie.vote_average}}
-            </p>
-            <!--  -->
-            
-            <p>
-              --------------------------------------- <br>
-            </p>
-          </div>
-      </div>
-      <!-- 
-          /SERIES
-       -->
+                  <p>
+                    LINGUA: {{serie.original_language}} <CountryFlag :country="serie.original_language == 'en' ? 'gb' : serie.original_language"/>
+                  </p>
+                  <!--  -->
+
+                  <p>
+                    VOTO: {{serie.vote_average}}
+                  </p>
+                  <!--  -->
+                  
+                  <p>
+                    --------------------------------------- <br>
+                  </p>
+                </div>
+            </div>
+            <!-- 
+                /SERIES
+            -->
+
+       </div>
+       <!-- 
+            /container
+        -->
   </div>
 </template>
 
@@ -106,6 +115,7 @@ export default {
         seriesUrlFirstPart: `https://api.themoviedb.org/3/search/tv?api_key=d96fb085a5d3052af443a4f202383b1f&page=1&query=`,
         filmUrlFirstPart: `https://api.themoviedb.org/3/search/movie?api_key=d96fb085a5d3052af443a4f202383b1f&query=`,
         filmUrlLastPart: `&page=1`,
+        poster_prefix: 'https://image.tmdb.org/t/p/',
       }
     },
     methods: {
