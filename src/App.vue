@@ -25,7 +25,13 @@
                 FILMS:
               </h2>
                 <div v-for="film in userFilms[0]" :key="film.id" class="film">
-                  <img :src="poster_prefix + '/w300' + film.poster_path" alt="poster">
+
+                  <img :src="film.poster_path == null && film.backdrop_path == null ? 'https://picsum.photos/300/200' :
+                  film.poster_path == null ? poster_prefix + '/w300' + film.backdrop_path 
+                  : poster_prefix + '/w300' + film.poster_path " 
+                  alt="poster"
+                  >
+
                   <p>
                     TITOLO: {{film.title}}
                   </p>
@@ -59,7 +65,9 @@
                 SERIES:
               </h2>
                 <div v-for="serie in userSeries[0]" :key="serie.id" class="film">
-                  <img :src="poster_prefix + '/w300' + serie.poster_path" alt="poster">
+                  <img :src="serie.poster_path == null && serie.backdrop_path == null ? 'https://picsum.photos/300/500' :
+                  serie.poster_path == null ? poster_prefix + '/w300' + serie.backdrop_path 
+                  : poster_prefix + '/w300' + serie.poster_path">
                   <p>
                     TITOLO: {{serie.name}}
                   </p>
@@ -127,14 +135,18 @@ export default {
         this.apiCall(this.userSeries, this.seriesUrlFirstPart, this.userQuery, "")
       },
 
-        apiCall(array, linkFirstPart, userInput, linkLast) {
-          console.log(userInput);
-          axios.get(linkFirstPart + userInput + linkLast).then(r => {
-            console.log(r.data.results);
-              array.push(r.data.results);
-              console.log(array);
-          })
-        },
+      apiCall(array, linkFirstPart, userInput, linkLast) {
+        console.log(userInput);
+        axios.get(linkFirstPart + userInput + linkLast).then(r => {
+          console.log(r.data.results);
+            array.push(r.data.results);
+            console.log(array);
+        })
+        .catch(err => {
+          console.log(err + 'errore');
+        })
+      },
+
     },
 }
 </script>
