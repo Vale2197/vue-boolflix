@@ -20,7 +20,7 @@
        -->
        <div class="container">
 
-            <div class="searchResult"> 
+            <div v-if="userFilms.length > 0" class="searchResult"> 
               <h2>
                 FILMS:
               </h2>
@@ -70,7 +70,7 @@
             <!-- 
                   / FILMS
             -->
-            <div class="searchResult"> 
+            <div v-if="userSeries.length > 0" class="searchResult"> 
               <h2>
                 SERIES:
               </h2>
