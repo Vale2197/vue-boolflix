@@ -42,9 +42,17 @@
                   </p>
                   <!--  -->
 
-                  <p>
-                    LINGUA: {{film.original_language}} <CountryFlag :country="film.original_language == 'en' ? 'gb' : film.original_language"/>
+                  <p v-if="flags.includes(film.original_language)">
+
+                    LINGUA:<CountryFlag :country="film.original_language == 'en' ? 'gb' 
+                    : film.original_language == 'ja' ? 'jp' : film.original_language"
+                    />
                   </p>
+                  <!-- / lingua bandiera --> 
+                  <p v-else>
+                    LINGUA: {{film.original_language}}
+                  </p>
+                  <!-- / lingua paragrafo -->
                   <!--  -->
 
                   <p>
@@ -67,9 +75,11 @@
                 SERIES:
               </h2>
                 <div v-for="serie in userSeries[0]" :key="serie.id" class="film">
-                  <img :src="serie.poster_path == null && serie.backdrop_path == null ? 'https://picsum.photos/300/500' :
+                  <img :src="serie.poster_path == null && serie.backdrop_path == null ? 'https://picsum.photos/300/200' :
                   serie.poster_path == null ? poster_prefix + '/w300' + serie.backdrop_path 
-                  : poster_prefix + '/w300' + serie.poster_path">
+                  : poster_prefix + '/w300' + serie.poster_path " 
+                  alt="poster"
+                  >
                   <p>
                     TITOLO: {{serie.name}}
                   </p>
@@ -80,10 +90,17 @@
                   </p>
                   <!--  -->
 
-                  <p>
-                    LINGUA: {{serie.original_language}} <CountryFlag :country="serie.original_language == 'en' ? 'gb' : serie.original_language"/>
+                  <p v-if="flags.includes(serie.original_language)">
+
+                    LINGUA:<CountryFlag :country="serie.original_language == 'en' ? 'gb' 
+                    : serie.original_language == 'ja' ? 'jp' : serie.original_language"
+                    />
                   </p>
-                  <!--  -->
+                  <!-- / lingua bandiera -->
+                  <p v-else>
+                    LINGUA: {{serie.original_language}}
+                  </p>
+                  <!-- / lingua paragrafo -->
 
                   <p>
                     VOTO:
@@ -128,6 +145,7 @@ export default {
         filmUrlFirstPart: `https://api.themoviedb.org/3/search/movie?api_key=d96fb085a5d3052af443a4f202383b1f&query=`,
         filmUrlLastPart: `&page=1`,
         poster_prefix: 'https://image.tmdb.org/t/p/',
+        flags: ['it', 'en', 'ja', 'de', 'fr', 'es',]
       }
     },
     methods: {
@@ -140,11 +158,11 @@ export default {
       },
 
       apiCall(array, linkFirstPart, userInput, linkLast) {
-        console.log(userInput);
+        //console.log(userInput);
         axios.get(linkFirstPart + userInput + linkLast).then(r => {
           console.log(r.data.results);
             array.push(r.data.results);
-            console.log(array);
+            //console.log(array);
         })
         .catch(err => {
           console.log(err + 'errore');
@@ -161,9 +179,6 @@ export default {
         }
 
     },
-    computed: {
-        
-    }
 }
 </script>
 
