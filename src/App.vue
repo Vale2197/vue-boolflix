@@ -3,14 +3,16 @@
        <header>
         <div class="container">
 
-            <div class="row">
-
-            <div class="col-12">
-                <input v-model="userQuery" type="text" placeholder="search" id="search">
-                <button @click="startSearch">
-                search
-                </button>
-            </div>
+            <div class="row py-3 align-items-center">
+              <div class="logo col-3 text-start">
+                BOOLFLIX
+              </div>
+              <div class="col-9 text-end">
+                  <input v-model="userQuery" type="text" placeholder="search" id="search">
+                  <button @click="startSearch">
+                  search
+                  </button>
+              </div>
             </div>
             <!-- search form -->
         </div>
@@ -18,101 +20,123 @@
       <!-- 
         HEADER
        -->
-       <div class="container">
+       <div class="container-fluid">
 
-            <div v-if="userFilms.length > 0" class="searchResult"> 
-              <h2>
-                FILMS:
-              </h2>
-                <div v-for="film in userFilms[0]" :key="film.id" class="film">
+            <div v-if="userFilms.length > 0" class="searchResult container"> 
 
-                  <img :src="film.poster_path == null && film.backdrop_path == null ? 'https://picsum.photos/300/200' :
-                  film.poster_path == null ? poster_prefix + '/w300' + film.backdrop_path 
-                  : poster_prefix + '/w300' + film.poster_path " 
-                  alt="poster"
-                  >
+              <div class="row justify-center">
+                  <h2 class="col-12 text-center">
+                    FILMS:
+                  </h2>
+                <!-- film card -->
+                <div v-for="film in userFilms[0]" :key="film.id" class="film col-4 ">
 
-                  <p>
-                    TITOLO: {{film.title}}
-                  </p>
-                  <!--  -->
+                  <div class="card" :style="background(film)">
+                  </div>
+                      <!-- 
+                        FILM DESCRIPTION
+                       -->
+                          <div class="description">
+                              <p>
+                               <strong> TITOLO: </strong> {{film.title}}
+                              </p>
+                              <!--  -->
 
-                  <p>
-                    TITOLO ORIGINALE: {{film.original_title}}
-                  </p>
-                  <!--  -->
+                              <p>
+                                 <strong> TITOLO ORIGINALE: </strong> {{film.original_title}}
+                              </p>
+                              <!--  -->
 
-                  <p v-if="flags.includes(film.original_language)">
+                              <p v-if="flags.includes(film.original_language)" class="lingua">
 
-                    LINGUA:<CountryFlag :country="film.original_language == 'en' ? 'gb' 
-                    : film.original_language == 'ja' ? 'jp' : film.original_language"
-                    />
-                  </p>
-                  <!-- / lingua bandiera --> 
-                  <p v-else>
-                    LINGUA: {{film.original_language}}
-                  </p>
-                  <!-- / lingua paragrafo -->
-                  <!--  -->
+                                 <strong> LINGUA: </strong><CountryFlag :country="film.original_language == 'en' ? 'gb' 
+                                : film.original_language == 'ja' ? 'jp' : film.original_language"
+                                />
+                              </p>
+                              <!-- / lingua bandiera --> 
+                              <p v-else>
+                                 <strong> LINGUA: </strong> {{film.original_language}}
+                              </p>
+                              <!-- / lingua paragrafo -->
+                              <!--  -->
+                              <p v-if="film.overview.length > 0 && film.overview !== ''">
+                                 <strong> OVERVIEW: </strong> {{film.overview}}
+                              </p>
 
-                  <p>
-                    VOTO:
-                    <i v-for="filledStar in voto(film) " :key="filledStar" class="fas fa-star"></i> 
-                    <i v-for="emptyStar in 5 - voto(film)" :key="emptyStar" class="far fa-star"></i>
-                  </p>
-                  <!--  -->
+                              <p>
+                                 <strong> VOTO: </strong>
+                                <i v-for="filledStar in voto(film) " :key="filledStar" class="fas fa-star"></i> 
+                                <i v-for="emptyStar in 5 - voto(film)" :key="emptyStar" class="far fa-star"></i>
+                              </p>
+                              <!--  -->
+                          </div>
+                       <!-- 
+                         // FILM DESCRIPTION
+                        -->
                   
-                  <p>
-                    --------------------------------------- <br>
-                  </p>
                 </div>
+                <!-- // film card -->
+              </div>
+              
             </div>
             <!-- 
                   / FILMS
             -->
-            <div v-if="userSeries.length > 0" class="searchResult"> 
-              <h2>
-                SERIES:
-              </h2>
-                <div v-for="serie in userSeries[0]" :key="serie.id" class="film">
-                  <img :src="serie.poster_path == null && serie.backdrop_path == null ? 'https://picsum.photos/300/200' :
-                  serie.poster_path == null ? poster_prefix + '/w300' + serie.backdrop_path 
-                  : poster_prefix + '/w300' + serie.poster_path " 
-                  alt="poster"
-                  >
-                  <p>
-                    TITOLO: {{serie.name}}
-                  </p>
-                  <!--  -->
+            <div v-if="userSeries.length > 0" class="searchResult container"> 
 
-                  <p>
-                    TITOLO ORIGINALE: {{serie.original_name}}
-                  </p>
-                  <!--  -->
+              <div class="row justify-center">
+                  <h2 class="col-12 text-center">
+                    SERIES:
+                  </h2>
+                <!-- serie card -->
+                <div v-for="serie in userSeries[0]" :key="serie.id" class="film col-4 ">
 
-                  <p v-if="flags.includes(serie.original_language)">
+                  <div class="card" :style="background(serie)">
+                  </div>
+                  <!-- 
+                    description
+                   -->
+                  <div class="description">
+                      <p>
+                      <strong> TITOLO: </strong> {{serie.name}}
+                      </p>
+                      <!--  -->
 
-                    LINGUA:<CountryFlag :country="serie.original_language == 'en' ? 'gb' 
-                    : serie.original_language == 'ja' ? 'jp' : serie.original_language"
-                    />
-                  </p>
-                  <!-- / lingua bandiera -->
-                  <p v-else>
-                    LINGUA: {{serie.original_language}}
-                  </p>
-                  <!-- / lingua paragrafo -->
+                      <p>
+                        <strong> TITOLO ORIGINALE: </strong> {{serie.original_name}}
+                      </p>
+                      <!--  -->
 
-                  <p>
-                    VOTO:
-                    <i v-for="filledStar in voto(serie) " :key="filledStar" class="fas fa-star"></i> 
-                    <i v-for="emptyStar in 5 - voto(serie)" :key="emptyStar" class="far fa-star"></i>
-                  </p>
-                  <!--  -->
+                      <p v-if="flags.includes(serie.original_language)" class="lingua">
+
+                        <strong> LINGUA: </strong><CountryFlag :country="serie.original_language == 'en' ? 'gb' 
+                        : serie.original_language == 'ja' ? 'jp' : serie.original_language"
+                        />
+                      </p>
+                      <!-- / lingua bandiera --> 
+                      <p v-else>
+                        <strong> LINGUA: </strong> {{serie.original_language}}
+                      </p>
+                      <!-- / lingua paragrafo -->
+                      <p v-if="serie.overview.length > 0 && serie.overview !== ''">
+                          <strong>  OVERVIEW: </strong> {{serie.overview}}
+                      </p>
+                      
+                      <p>
+                        <strong> VOTO: </strong>
+                        <i v-for="filledStar in voto(serie) " :key="filledStar" class="fas fa-star"></i> 
+                        <i v-for="emptyStar in 5 - voto(serie)" :key="emptyStar" class="far fa-star"></i>
+                      </p>
+                      <!--  -->
+                  </div>
+                  <!-- 
+                    // description
+                   -->
                   
-                  <p>
-                    --------------------------------------- <br>
-                  </p>
                 </div>
+                <!-- // serie card -->
+              </div>
+              
             </div>
             <!-- 
                 /SERIES
@@ -145,7 +169,7 @@ export default {
         filmUrlFirstPart: `https://api.themoviedb.org/3/search/movie?api_key=d96fb085a5d3052af443a4f202383b1f&query=`,
         filmUrlLastPart: `&page=1`,
         poster_prefix: 'https://image.tmdb.org/t/p/',
-        flags: ['it', 'en', 'ja', 'de', 'fr', 'es',]
+        flags: ['it', 'en', 'ja', 'de', 'fr', 'es',],
       }
     },
     methods: {
@@ -176,12 +200,98 @@ export default {
           }
 
           return votoIntero;
-        }
+        },
+
+      background(film) {
+        return `background-image: url("${film.poster_path == null && film.backdrop_path == null ? 'https://picsum.photos/300/200' :
+                  film.poster_path == null ? this.poster_prefix + '/w300' + film.backdrop_path 
+                  : this.poster_prefix + '/w300' + film.poster_path}")`
+      }
 
     },
 }
 </script>
 
 <style lang="scss">
+@import "../node_modules/bootstrap";
+body {
+    background-color: grey;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    header {
+        background-color: black;
+        color: white;
 
+        .logo {
+          color: red;
+          font-weight: bold;
+          font-size: 2rem;
+        }
+        input {
+            border: none;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        button {
+            font-size: 1.5rem;
+            padding: 0.5rem 2rem;
+            border-radius: 1rem;
+            border: none;
+        }
+    }
+
+     h2 {
+            font-size: 3rem;
+          color: black;
+          font-weight: bold;
+      }
+    .film {
+      padding: 1rem 0.5rem;
+      height: 600px;
+      position: relative;
+      font-size: 1.3rem;
+      transition: 0.5s;
+      
+      .card {
+        background-size: cover;
+        background-position: top;
+        background-repeat: no-repeat;
+        height: 100%;
+        border-radius: 2rem;
+        box-shadow: 5px 5px 5px black;
+        transition: 0.5s;
+      }
+
+      .description {
+          display: none;
+
+          i{
+            color: orange;
+          }
+          transition: 0.5s;
+          .lingua {
+              display: flex;
+              align-items: center;
+          }
+      }
+      
+      &:hover .description {
+            display: block;
+            color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 1.5rem 1rem;
+      }
+      &:hover .card {
+        filter: brightness(0.1);
+      }
+
+    }
+}
 </style>
